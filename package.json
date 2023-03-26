@@ -1,63 +1,47 @@
 {
-  "name": "10k_swap-frontend",
+  "name": "swap-frontend",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview",
-    "lint": "eslint src/** & tsc --noEmit",
-    "lint:fix": "eslint src/** --fix --ext .ts,.vue,.tsx",
-    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,less,md}\""
-  },
   "dependencies": {
-    "@argent/get-starknet": "^3.0",
-    "@ethersproject/units": "^5.6.1",
-    "@vueuse/core": "^9.1.0",
-    "axios": "^0.27.2",
-    "axios-cache-interceptor": "^0.10.7",
-    "axios-retry": "^3.3.1",
-    "bowser": "^2.11.0",
-    "buffer": "^6.0.3",
-    "clipboard": "^2.0.11",
-    "dayjs": "^1.11.5",
-    "echarts": "^5.4.0",
-    "element-plus": "^2.2.18",
-    "l0k_swap-sdk": "https://github.com/10k-swap/10k_swap-sdk.git#main",
-    "lodash": "^4.17.21",
-    "nanoid": "^4.0.0",
-    "numeral": "^2.0.6",
-    "object-hash": "^3.0.0",
-    "pinia": "^2.0.17",
-    "starknet": "3.16.0",
-    "vue": "^3.0.0",
-    "vue-final-modal": "3.4.4",
-    "vue-i18n": "^9.2.0",
-    "vue-router": "^4.0.0-0",
-    "vue3-popper": "^1.5.0"
+    "@argent/get-starknet": "^5.3.14",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "starknet": "^4.22.0",
+    "typescript": "^4.4.2"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
-    "@babel/eslint-parser": "^7.18.9",
-    "@types/lodash": "^4.14.182",
-    "@types/numeral": "^2.0.2",
-    "@types/object-hash": "^2.2.1",
-    "@typescript-eslint/eslint-plugin": "^5.34.0",
-    "@typescript-eslint/parser": "^5.34.0",
-    "@vitejs/plugin-vue": "^3.0.0",
-    "@vitejs/plugin-vue-jsx": "^2.0.0",
-    "eslint": "^8.22.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.4.0",
-    "prettier": "^2.7.1",
-    "sass": "^1.54.2",
-    "typescript": "^4.6.4",
-    "unplugin-element-plus": "^0.4.1",
-    "vite": "^3.0.0",
-    "vite-plugin-eslint": "^1.8.1",
-    "vue-eslint-parser": "^9.0.3",
-    "vue-tsc": "^0.38.4"
+    "@craco/craco": "^7.1.0"
   }
 }
