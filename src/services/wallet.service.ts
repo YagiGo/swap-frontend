@@ -1,7 +1,5 @@
 import {
   StarknetWindowObject,
-  getStarknet,
-  GetStarknetOptions,
 } from 'get-starknet-core';
 import {
   connect,
@@ -67,7 +65,7 @@ class WalletService {
 
   getChainId() {
     if (!this._wallet?.isConnected) return;
-    return this._wallet.provider.provider.chainId;
+    return this._wallet.provider.chainId;
   }
 }
 
