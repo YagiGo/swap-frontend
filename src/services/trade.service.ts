@@ -12,7 +12,6 @@ export const allCommonPairs = (currencyA: Token, currencyB: Token) => {
     address ? new Contract(I10kSwapPairABI as Abi, address, defaultProvider) : undefined
   )
   const [token0, token1] = currencyA.sortsBefore(currencyB) ? [currencyA, currencyB] : [currencyB, currencyA]
-
 }
 
 export const tradeExactIn = async (currencyAAmount: TokenAmount | undefined, currencyB: Token): Promise<Trade | null> => {

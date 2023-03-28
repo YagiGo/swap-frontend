@@ -14,6 +14,7 @@
     "@types/react-dom": "^18.0.0",
     "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v3-sdk": "^3.9.0",
+    "antd": "^5.3.3",
     "ethers": "^5.5.1",
     "get-starknet": "^2.0.0",
     "get-starknet-core": "^2.0.0",

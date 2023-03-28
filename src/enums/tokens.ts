@@ -1,7 +1,7 @@
 import { Token, ChainId } from "10k_swap_sdk";
 // a list of tokens by chain
 type ChainTokenList = {
-  readonly [chainId in ChainId]?: Token[]
+  readonly [chainId in ChainId]: Token[]
 }
 
 export const tokens: ChainTokenList = {

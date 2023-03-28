@@ -1,5 +1,4 @@
-//@ts-nocheck
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Layout } from 'components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -7,6 +6,8 @@ import Swap from 'pages/Swap';
 import Pool from 'pages/Pool';
 import { WalletContext } from 'context/WalletContext';
 import { StarknetWindowObject } from 'get-starknet-core';
+import 'antd/dist/reset.css';
+
 function App() {
   const [wallet, setWallet] = useState<StarknetWindowObject | null>(null);
   return (
