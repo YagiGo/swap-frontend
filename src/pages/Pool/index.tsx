@@ -30,7 +30,8 @@ const Pool = () => {
       title: 'Liquidity',
       dataIndex: 'liquidity',
       width: 200,
-      align: 'center'
+      align: 'center',
+      render: (value) => <span>$ {value.toFixed(2)}</span>
     }
   ]
   return <div>
