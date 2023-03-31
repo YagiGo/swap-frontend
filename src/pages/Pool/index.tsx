@@ -2,19 +2,21 @@ import {useEffect, useState} from "react";
 import {AllPairItem, getAllPairs} from "services/trade.service";
 import {ChainId} from "10k_swap_sdk";
 import {ColumnProps} from "antd/es/table";
-import {Table} from "antd";
+import {Button, Table} from "antd";
 import styles from './index.module.css';
+import { IPool } from 'enums/types'
 const Pool = () => {
-  const [liquidities, setLiquidities] = useState<AllPairItem[]>([])
+  const [liquidities, setLiquidities] = useState<IPool[]>([])
   const [isFetching, setIsFetching] = useState(false)
   useEffect(() => {
     setIsFetching(true)
     getAllPairs(ChainId.MAINNET).then(ret => {
-      //@ts-ignore
       setLiquidities(ret);
       setIsFetching(false)
     })
   }, [])
+
+  const onAdd = () => {}
   const columns: ColumnProps<any>[] = [
     {
       key: 'name',
@@ -32,6 +34,15 @@ const Pool = () => {
       width: 200,
       align: 'center',
       render: (value) => <span>$ {value.toFixed(2)}</span>
+    },
+    {
+      key: 'add',
+      title: 'Add',
+      width: 200,
+      align: 'center',
+      render: () => {
+        return <Button type='link' onClick={onAdd}>Add Liquidity</Button>
+      }
     }
   ]
   return <div>

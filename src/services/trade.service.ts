@@ -1,5 +1,5 @@
 import {ChainId, Pair, Token, TokenAmount, Trade} from "10k_swap_sdk";
-import I10kSwapPairABI from 'abi/l0k_pair_abi.json';
+import ProtossSwapPairABI from 'abi/protoss_pair_abi.json';
 import {Contract, Abi} from "starknet";
 import {defaultProvider} from "../constants";
 import { IResponse } from "enums/types";
@@ -35,7 +35,7 @@ export const allCommonPairs = (currencyA: Token, currencyB: Token) => {
       return tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getAddress(tokenA, tokenB) : undefined
   })
   const pairContracts = pairAddresses.map((address) =>
-    address ? new Contract(I10kSwapPairABI as Abi, address, defaultProvider) : undefined
+    address ? new Contract(ProtossSwapPairABI as Abi, address, defaultProvider) : undefined
   )
   const [token0, token1] = currencyA.sortsBefore(currencyB) ? [currencyA, currencyB] : [currencyB, currencyA]
 }
@@ -44,7 +44,8 @@ export const tradeExactIn = async (currencyAAmount: TokenAmount | undefined, cur
   if(!currencyAAmount) return null;
   const currencyA = currencyAAmount.token;
   const address = Pair.getAddress(currencyA, currencyB);
-  const contract = new Contract(I10kSwapPairABI as Abi, address, defaultProvider);
+  console.log(address)
+  const contract = new Contract(ProtossSwapPairABI as Abi, address, defaultProvider);
   const { reserve0, reserve1 } = await contract.call('getReserves')
   const possiblePairs = [new Pair(new TokenAmount(currencyA, reserve0.toString()), new TokenAmount(currencyB, reserve1.toString()))];
   return Trade.bestTradeExactIn(possiblePairs, currencyAAmount, currencyB, {

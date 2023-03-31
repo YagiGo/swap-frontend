@@ -1,14 +1,15 @@
-import {tradeExactIn} from "../../services/trade.service";
+import {tradeExactIn} from "services/trade.service";
 import {tokens} from 'enums/tokens';
 import {ChainId} from "10k_swap_sdk";
 import { tryParseAmount } from "utils/maths";
 import { useContext, useEffect, useState} from "react";
-import {Input, Select, Button} from "antd";
-import {WalletContext} from "../../context/WalletContext";
-import {getBalance} from "../../services/balances.service";
+import {Input, Select, Button, Typography, Tooltip} from "antd";
+import {WalletContext} from "context/WalletContext";
+import {getBalance} from "services/balances.service";
 import styles from './index.module.css';
 
 const { Option } = Select;
+const { Text } = Typography;
 const Swap = () => {
   const [fromCurrency, setFronCurrency] = useState('ETH')
   const [toCurrency, setToCurrency] = useState('DAI')
@@ -20,8 +21,8 @@ const Swap = () => {
   const [insufficient, setInsufficient] = useState(false);
   const onSwap = async () => {
     setIsFetching(true)
-    const inputToken = tokens[ChainId.MAINNET].filter(item => item.symbol === fromCurrency)[0]
-    const outputToken = tokens[ChainId.MAINNET].filter(item => item.symbol === toCurrency)[0]
+    const inputToken = tokens[ChainId.TESTNET].filter(item => item.symbol === fromCurrency)[0]
+    const outputToken = tokens[ChainId.TESTNET].filter(item => item.symbol === toCurrency)[0]
 
     tradeExactIn(tryParseAmount(inputValue, inputToken), outputToken).then(ret => {
       const outAmount = ret?.outputAmount.toSignificant(10)
@@ -45,7 +46,7 @@ const Swap = () => {
 
   useEffect(() => {
     if(wallet) {
-      getBalance(wallet, tokens[ChainId.MAINNET][0].address).then(ret => {
+      getBalance(wallet, tokens[ChainId.TESTNET][0].address).then(ret => {
         setBalance(Number(ret) || 0)
       })
     }
@@ -67,14 +68,14 @@ const Swap = () => {
         <Input style={{width: 220}} value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
         <div className={styles.fromCurrencySelectContainer}>
           <Select value={fromCurrency} onSelect={setFronCurrency}>
-            {tokens[ChainId.MAINNET].map(item => (
+            {tokens[ChainId.TESTNET].map(item => (
               <Option key={item.symbol} value={item.symbol}>{item.name}</Option>
             ))}
           </Select>
           <div className={styles.balanceBox}>
             {
               !wallet ? <span className={styles.balance}>Connect your wallet first</span> : <>
-                <span className={styles.balance}>Balance: {balance}</span>
+                <Text className={styles.balance} ellipsis={true}>Balance: <Tooltip placement={"bottomLeft"} title={balance}>{balance}</Tooltip></Text>
                 <span className={styles.maxSwap} onClick={() => {setInputValue(balance.toString())}}>max</span>
               </>
             }
@@ -86,7 +87,7 @@ const Swap = () => {
       <div className={styles.toCurrency}>
         <Input value={outAmount} style={{width: 220}} />
         <Select value={toCurrency} onSelect={setToCurrency} placeholder={'Select'}>
-          {tokens[ChainId.MAINNET].map(item => (
+          {tokens[ChainId.TESTNET].map(item => (
             <Option key={item.symbol} value={item.symbol}>{item.name}</Option>
           ))}
         </Select>
