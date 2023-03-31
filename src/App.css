@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+.ant-select {
+  border-radius: 8px;
+  width: 140px;
+  border: none;
+  background-color: #f2f2f2;
+}
+
+.ant-select-selector {
+  background-color: #f2f2f2;
+
+}
+.ant-input:focus {
+  border: none;
+}
+
+.ant-input {
+  height: 60px;
+  font-size: 32px;
+  background-color: #f2f2f2;
+  border: none
+}
+
+.ant-btn-default:disabled {
+  background-color: #eeeeee;
+}

@@ -1,6 +1,4 @@
-import {
-  StarknetWindowObject,
-} from 'get-starknet-core';
+import { StarknetWindowObject } from 'get-starknet-core';
 import {
   connect,
   ConnectOptions,

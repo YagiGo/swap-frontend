@@ -17,30 +17,6 @@
   align-items: center;
 }
 
-:global .ant-select {
-  border-radius: 8px;
-  width: 140px;
-  border: none;
-  background-color: #f2f2f2;
-}
-
-:global .ant-select-selector {
-  background-color: #f2f2f2;
-
-}
-:global .ant-input:focus {
-  border: none;
-}
-
-:global .ant-input {
-  height: 60px;
-  font-size: 32px;
-  background-color: #f2f2f2;
-  border: none
-}
-:global .ant-btn-default:disabled {
-  background-color: #eeeeee;
-}
 .balanceBox {
   display: flex;
   justify-content: flex-start;

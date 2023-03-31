@@ -1,103 +1,92 @@
-import {tradeExactIn} from "services/trade.service";
-import {tokens} from 'enums/tokens';
-import {ChainId} from "10k_swap_sdk";
-import { tryParseAmount } from "utils/maths";
-import { useContext, useEffect, useState} from "react";
-import {Input, Select, Button, Typography, Tooltip} from "antd";
-import {WalletContext} from "context/WalletContext";
-import {getBalance} from "services/balances.service";
+import { tradeExactIn } from 'services/trade.service';
+import { tokens } from 'enums/tokens';
+import { ChainId } from '10k_swap_sdk';
+import { tryParseAmount } from 'utils/maths';
+import { useContext, useEffect, useState } from 'react';
+import { Button } from 'antd';
+import { WalletContext } from 'context/WalletContext';
+import { getBalance } from 'services/balances.service';
 import styles from './index.module.css';
+import { TokenInput } from 'components';
 
-const { Option } = Select;
-const { Text } = Typography;
 const Swap = () => {
-  const [fromCurrency, setFronCurrency] = useState('ETH')
-  const [toCurrency, setToCurrency] = useState('DAI')
-  const [inputValue, setInputValue] = useState('')
-  const [outAmount, setOutAmount] = useState(0)
-  const [balance, setBalance] = useState(0)
-  const [isFetching, setIsFetching] = useState(false)
+  const [fromCurrency, setFromCurrency] = useState('ETH');
+  const [toCurrency, setToCurrency] = useState('DAI');
+  const [inputValue, setInputValue] = useState('');
+  const [outAmount, setOutAmount] = useState(0);
+  const [isFetching, setIsFetching] = useState(false);
   const { wallet } = useContext(WalletContext);
   const [insufficient, setInsufficient] = useState(false);
   const onSwap = async () => {
-    setIsFetching(true)
-    const inputToken = tokens[ChainId.TESTNET].filter(item => item.symbol === fromCurrency)[0]
-    const outputToken = tokens[ChainId.TESTNET].filter(item => item.symbol === toCurrency)[0]
+    setIsFetching(true);
+    const inputToken = tokens[ChainId.TESTNET].filter(
+      item => item.symbol === fromCurrency
+    )[0];
+    const outputToken = tokens[ChainId.TESTNET].filter(
+      item => item.symbol === toCurrency
+    )[0];
 
-    tradeExactIn(tryParseAmount(inputValue, inputToken), outputToken).then(ret => {
-      const outAmount = ret?.outputAmount.toSignificant(10)
-      setOutAmount(Number(outAmount) || 0)
-    })
-    if(wallet) {
-      const inputBalance = await getBalance(wallet, inputToken.address)
-      if(Number(inputBalance) < Number(inputValue)) {
-        setInsufficient(true)
+    tradeExactIn(tryParseAmount(inputValue, inputToken), outputToken).then(
+      ret => {
+        const outAmount = ret?.outputAmount.toSignificant(10);
+        setOutAmount(Number(outAmount) || 0);
       }
-      else setInsufficient(false)
+    );
+    if (wallet) {
+      const inputBalance = await getBalance(wallet, inputToken.address);
+      if (Number(inputBalance) < Number(inputValue)) {
+        setInsufficient(true);
+      } else setInsufficient(false);
     }
     setIsFetching(false);
-  }
+  };
   const swapNumber = () => {
-    setInputValue(outAmount.toString())
+    setInputValue(outAmount.toString());
     const tmp = fromCurrency;
-    setFronCurrency(toCurrency)
-    setToCurrency(tmp)
-  }
+    setFromCurrency(toCurrency);
+    setToCurrency(tmp);
+  };
 
   useEffect(() => {
-    if(wallet) {
-      getBalance(wallet, tokens[ChainId.TESTNET][0].address).then(ret => {
-        setBalance(Number(ret) || 0)
-      })
-    }
-  }, [wallet])
-
-  useEffect(() => {
-    onSwap()
-  }, [fromCurrency, toCurrency, inputValue])
+    onSwap();
+  }, [fromCurrency, toCurrency, inputValue]);
   const generateBtnText = () => {
-    if(!wallet?.isConnected) return 'Connect Wallet'
-    if(insufficient) return 'Insufficient Balance'
-    if(!inputValue) return 'Input An Amount'
-    if(isFetching) return 'Calculating...'
-    return 'Transfer'
-  }
+    if (!wallet?.isConnected) return 'Connect Wallet';
+    if (insufficient) return 'Insufficient Balance';
+    if (!inputValue) return 'Input An Amount';
+    if (isFetching) return 'Calculating...';
+    return 'Transfer';
+  };
   return (
     <div className={styles.swapContainer}>
-      <div className={styles.fromCurrency}>
-        <Input style={{width: 220}} value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
-        <div className={styles.fromCurrencySelectContainer}>
-          <Select value={fromCurrency} onSelect={setFronCurrency}>
-            {tokens[ChainId.TESTNET].map(item => (
-              <Option key={item.symbol} value={item.symbol}>{item.name}</Option>
-            ))}
-          </Select>
-          <div className={styles.balanceBox}>
-            {
-              !wallet ? <span className={styles.balance}>Connect your wallet first</span> : <>
-                <Text className={styles.balance} ellipsis={true}>Balance: <Tooltip placement={"bottomLeft"} title={balance}>{balance}</Tooltip></Text>
-                <span className={styles.maxSwap} onClick={() => {setInputValue(balance.toString())}}>max</span>
-              </>
-            }
-          </div>
-        </div>
-
-      </div>
-      <Button onClick={swapNumber}>Swap </Button>
-      <div className={styles.toCurrency}>
-        <Input value={outAmount} style={{width: 220}} />
-        <Select value={toCurrency} onSelect={setToCurrency} placeholder={'Select'}>
-          {tokens[ChainId.TESTNET].map(item => (
-            <Option key={item.symbol} value={item.symbol}>{item.name}</Option>
-          ))}
-        </Select>
-      </div>
+      <TokenInput
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        fromCurrency={fromCurrency}
+        setFromCurrency={setFromCurrency}
+        toCurrency={toCurrency}
+        setToCurrency={setToCurrency}
+        outAmount={outAmount}
+        swapNumber={swapNumber}
+      />
       <div>
-        <Button onClick={() => alert('Tx Start')} style={{height: 60, width: 300, borderRadius: 300, backgroundColor: '#0070f3', color: 'white', fontSize: '20px'}} disabled={!wallet?.isConnected || insufficient || !inputValue || isFetching}>{
-          generateBtnText()
-        }</Button>
+        <Button
+          onClick={() => alert('Tx Start')}
+          style={{
+            height: 60,
+            width: 300,
+            borderRadius: 300,
+            backgroundColor: '#0070f3',
+            color: 'white',
+            fontSize: '20px',
+          }}
+          disabled={
+            !wallet?.isConnected || insufficient || !inputValue || isFetching
+          }
+        >
+          {generateBtnText()}
+        </Button>
       </div>
-
     </div>
   );
 };

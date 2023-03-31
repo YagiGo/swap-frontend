@@ -1,4 +1,4 @@
-import { ChainId } from "10k_swap_sdk";
+import { ChainId } from '10k_swap_sdk';
 
 export const erc20TokenAddressByNetwork = {
   'goerli-alpha':
@@ -11,7 +11,7 @@ export const STARKNET_WALLET_NAME = '_wallet_name';
 export const SERVER_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'https://api.10kswap.com',
   [ChainId.TESTNET]: 'https://goerli-api.10kswap.com',
-}
+};
 export enum StarknetChainId {
   MAINNET = '0x534e5f4d41494e', // encodeShortString('SN_MAIN'),
   TESTNET = '0x534e5f474f45524c49', // encodeShortString('SN_GOERLI'),
